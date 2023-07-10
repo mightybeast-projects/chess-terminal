@@ -1,23 +1,20 @@
 using Chess.Core;
-using Chess.GUI;
-using Chess.GUI.Drawer;
+using ChessTerminal.Drawer;
+
+namespace ChessTerminal;
 
 public class Terminal
 {
-    private TerminalDrawerFacade drawer;
-    private TerminalInputHandler inputHandler;
-    private Game game;
-
     public void Run()
     {
-        game = new Game();
-        drawer = new TerminalDrawerFacade(game);
-        inputHandler = new TerminalInputHandler(game, drawer);
+        Game game = new Game();
+        DrawerFacade drawer = new DrawerFacade(game);
+        InputHandler inputHandler = new InputHandler(game, drawer);
 
         game.Start();
-        drawer.Draw();
+        drawer.DrawGame();
 
         while (true)
-            inputHandler.GetInput();
+            inputHandler.Run();
     }
 }

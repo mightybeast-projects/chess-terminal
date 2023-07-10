@@ -1,25 +1,25 @@
 using Chess.Core;
 using Chess.Core.Pieces;
 
-namespace Chess.GUI.Drawer;
+namespace ChessTerminal.Drawer;
 
-public class TerminalBoardDrawer
+public class BoardDrawer
 {
     public Piece hintPiece;
 
     private IPieceDrawerVisitor pieceDrawerVisitor;
-    private TerminalDrawerDecorator decorator;
+    private DrawerDecorator decorator;
     private Board board;
     private Tile currentTile;
     private ConsoleColor bgColor;
     private int tileColorIndex;
 
-    public TerminalBoardDrawer(Board board, TerminalDrawerDecorator decorator)
+    public BoardDrawer(Board board, DrawerDecorator decorator)
     {
         this.board = board;
         this.decorator = decorator;
 
-        pieceDrawerVisitor = new TerminalPieceDrawerVisitor();
+        pieceDrawerVisitor = new PieceDrawerVisitor();
     }
 
     public void DrawBoard()

@@ -1,9 +1,9 @@
 using Chess.Core;
 using Chess.Core.Pieces;
 
-namespace Chess.GUI.Drawer;
+namespace ChessTerminal.Drawer;
 
-public class TerminalPieceDrawerVisitor : IPieceDrawerVisitor
+public class PieceDrawerVisitor : IPieceDrawerVisitor
 {
     private Tile currentTile;
     private Piece currentPiece;

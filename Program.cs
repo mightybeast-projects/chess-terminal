@@ -1,4 +1,4 @@
-namespace Chess.GUI;
+namespace ChessTerminal;
 
 public class Program
 {
