@@ -5,6 +5,8 @@ namespace ChessTerminal.Drawer;
 public class DrawerDecorator
 {
     private Game game;
+    private string currentPlayerStr =>
+        game.currentPlayer.color == Color.WHITE ? "White" : "Black";
 
     public DrawerDecorator(Game game) => this.game = game;
 
@@ -26,17 +28,25 @@ public class DrawerDecorator
 
     public void DrawCurrentPlayerInfo()
     {
-        string currentPlayerStr =
-            (game.currentPlayer.color == Color.WHITE) ? "♟ " : "♙ ";
-
-        Console.WriteLine(currentPlayerStr + "'s turn.");
-
-        Console.WriteLine("Waiting for input...");
+        DrawMessage(currentPlayerStr + "'s turn.", ConsoleColor.White);
+        DrawMessage("Waiting for input...", ConsoleColor.Green);
     }
 
-    public void DrawError(string message)
+    public void DrawError(Exception e) =>
+        DrawMessage(e.Message, ConsoleColor.Red);
+
+    public void DrawCurrentKingIsChecked() =>
+        DrawMessage(currentPlayerStr + " king is checked!", ConsoleColor.Yellow);
+
+    public void DrawCurrentKingIsCheckmated() =>
+        DrawMessage(currentPlayerStr + " king is checkmated!", ConsoleColor.Red);
+
+    public void DrawGameIsInStaleMate() =>
+        DrawMessage("Stalemate", ConsoleColor.Red);
+
+    private void DrawMessage(string message, ConsoleColor color)
     {
-        Console.ForegroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = color;
         Console.WriteLine(message);
         Console.ResetColor();
     }

@@ -24,14 +24,26 @@ public class DrawerFacade
     {
         boardDrawer.DrawBoard();
 
-        decorator.DrawCurrentPlayerInfo();
+        King currentPlayerKing = game.currentPlayer.king;
+
+        if (currentPlayerKing.isCheckmated)
+            decorator.DrawCurrentKingIsCheckmated();
+        else if (currentPlayerKing.isInStalemate)
+            decorator.DrawGameIsInStaleMate();
+        else if (currentPlayerKing.isChecked)
+        {
+            decorator.DrawCurrentKingIsChecked();
+            decorator.DrawCurrentPlayerInfo();
+        }
+        else
+            decorator.DrawCurrentPlayerInfo();
     }
 
     public void DrawError(Exception e)
     {
         boardDrawer.DrawBoard();
 
-        decorator.DrawError(e.Message);
+        decorator.DrawError(e);
 
         decorator.DrawCurrentPlayerInfo();
     }
