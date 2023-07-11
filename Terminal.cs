@@ -17,12 +17,12 @@ public class Terminal
 
         drawer.DrawGame();
 
-        while (!GameIsOver(game))
+        while (GameIsNotOver(game))
             inputHandler.Run();
     }
 
-    private bool GameIsOver(Game game) =>
-       game.currentPlayer.king.isChecked ||
-       game.currentPlayer.king.isCheckmated ||
-       game.currentPlayer.king.isInStalemate;
+    private bool GameIsNotOver(Game game) =>
+       !game.currentPlayer.king.isChecked &&
+       !game.currentPlayer.king.isCheckmated &&
+       !game.currentPlayer.king.isInStalemate;
 }

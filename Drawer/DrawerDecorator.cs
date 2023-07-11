@@ -42,7 +42,7 @@ public class DrawerDecorator
         DrawMessage(currentPlayerStr + " king is checkmated!", ConsoleColor.Red);
 
     public void DrawGameIsInStaleMate() =>
-        DrawMessage("Stalemate", ConsoleColor.Red);
+        DrawMessage("Stalemate.", ConsoleColor.Red);
 
     private void DrawMessage(string message, ConsoleColor color)
     {

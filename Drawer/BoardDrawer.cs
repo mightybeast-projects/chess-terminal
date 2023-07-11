@@ -73,7 +73,9 @@ public class BoardDrawer
     {
         tileColorIndex = (int)currentTile.color;
 
-        if (CurrentTileIsAHint())
+        if (CurrentTileIsAHintPieceTile())
+            bgColor = ConsoleColor.DarkYellow;
+        else if (CurrentTileIsAHint())
             bgColor = ConsoleColor.DarkGreen;
         else
             ChooseSimpleTileColor();
@@ -94,4 +96,8 @@ public class BoardDrawer
     private bool CurrentTileIsAHint() =>
         hintPiece != null &&
         hintPiece.legalMoves.Contains(currentTile);
+
+    private bool CurrentTileIsAHintPieceTile() =>
+        hintPiece != null &&
+        hintPiece.tile == currentTile;
 }
