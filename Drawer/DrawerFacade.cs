@@ -20,10 +20,30 @@ public class DrawerFacade
             Console.OutputEncoding = System.Text.Encoding.Unicode;
     }
 
-    public void DrawGame()
+    public void DrawGame(Exception error = null)
     {
+        Console.Clear();
+
         boardDrawer.DrawBoard();
 
+        if (error is not null)
+            decorator.DrawError(error);
+
+        DrawGameInfo();
+    }
+
+    public void EnableHintsFor(Piece piece) => boardDrawer.hintPiece = piece;
+
+    private void DrawGameInfo()
+    {
+        if (game.board.LastMovedPieceIsAPawnAvailableForPromotion())
+            decorator.DrawPawnPromotionSelector();
+        else
+            DrawGameStatus();
+    }
+
+    private void DrawGameStatus()
+    {
         King currentPlayerKing = game.currentPlayer.king;
 
         if (currentPlayerKing.isCheckmated)
@@ -31,22 +51,9 @@ public class DrawerFacade
         else if (currentPlayerKing.isInStalemate)
             decorator.DrawGameIsInStaleMate();
         else if (currentPlayerKing.isChecked)
-        {
             decorator.DrawCurrentKingIsChecked();
-            decorator.DrawCurrentPlayerInfo();
-        }
-        else
+
+        if (!game.isOver)
             decorator.DrawCurrentPlayerInfo();
     }
-
-    public void DrawError(Exception e)
-    {
-        boardDrawer.DrawBoard();
-
-        decorator.DrawError(e);
-
-        decorator.DrawCurrentPlayerInfo();
-    }
-
-    public void EnableHintsFor(Piece piece) => boardDrawer.hintPiece = piece;
 }

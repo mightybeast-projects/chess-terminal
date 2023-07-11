@@ -17,12 +17,7 @@ public class Terminal
 
         drawer.DrawGame();
 
-        while (GameIsNotOver(game))
+        while (!game.isOver)
             inputHandler.Run();
     }
-
-    private bool GameIsNotOver(Game game) =>
-       !game.currentPlayer.king.isChecked &&
-       !game.currentPlayer.king.isCheckmated &&
-       !game.currentPlayer.king.isInStalemate;
 }

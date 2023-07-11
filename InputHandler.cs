@@ -18,37 +18,59 @@ public class InputHandler
 
     public void Run()
     {
+        Exception error = null;
+
         try { HandleInput(); }
-        catch (Exception e) { drawer.DrawError(e); }
+        catch (Exception e) { error = e; }
+
+        drawer.DrawGame(error);
     }
 
     private void HandleInput()
     {
         input = Console.ReadLine();
 
-        if (input != null)
-            HandleChosenPiece();
-
-        drawer.DrawGame();
-    }
-
-    private void HandleChosenPiece()
-    {
-        if (input.Length == 0)
+        if (input is null || input.Length == 0)
             return;
 
-        System.Console.WriteLine(input);
+        if (game.board.LastMovedPieceIsAPawnAvailableForPromotion())
+            HandleChosenPromotionPiece();
+        else
+            HandleChosenPlayerPiece();
+    }
 
+    private void HandleChosenPromotionPiece()
+    {
+        if (input.Length != 1)
+            return;
+
+        Type pieceType = input switch
+        {
+            "q" => pieceType = typeof(Queen),
+            "b" => pieceType = typeof(Bishop),
+            "k" => pieceType = typeof(Knight),
+            "r" => pieceType = typeof(Rook),
+            _ => typeof(Queen)
+        };
+
+        game.PromoteMovedPawnTo(pieceType);
+    }
+
+    private void HandleChosenPlayerPiece()
+    {
         Piece chosenPiece = game.board.GetTile(input).piece;
 
         if (InputIsHintCommand())
             drawer.EnableHintsFor(chosenPiece);
         else if (InputIsMoveCommand())
-        {
-            string pieceTileStr = input.Split(" ")[0];
-            string targetTileStr = input.Split(" ")[1];
-            game.HandlePlayerMove(pieceTileStr, targetTileStr);
-        }
+            MoveChosenPiece();
+    }
+
+    private void MoveChosenPiece()
+    {
+        string pieceTileStr = input.Split(" ")[0];
+        string targetTileStr = input.Split(" ")[1];
+        game.HandlePlayerMove(pieceTileStr, targetTileStr);
     }
 
     private bool InputIsHintCommand() => input.Length == 2;
